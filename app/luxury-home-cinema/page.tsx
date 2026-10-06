@@ -3,6 +3,8 @@ import { ProductCard } from '../../components/product-card';
 import { StructuredData } from '../../components/structured-data';
 import { getCachedCatalogue } from '../../lib/catalogue';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Luxury Home Cinema LED Displays | Brightluxx',
   description: 'Explore luxury home cinema LED displays with specification support for private screening rooms, living spaces and outdoor cinema projects.',
