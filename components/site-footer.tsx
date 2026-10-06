@@ -1,0 +1,10 @@
+import { SafeLink as Link } from './safe-link';
+
+type FooterLink = readonly [string, string];
+const sections: ReadonlyArray<{ heading: string; links: readonly FooterLink[] }> = [
+  { heading: 'EXPLORE', links: [['PRODUCTS', '/products'], ['SOLUTIONS', '/solutions'], ['TECHNOLOGY', '/technology'], ['CASE STUDIES', '/case-studies'], ['BLOG', '/blog']] },
+  { heading: 'LOCATIONS', links: [['DUBAI', '/dubai'], ['ABU DHABI', '/abu-dhabi'], ['SAUDI ARABIA', '/saudi-arabia'], ['QATAR', '/qatar'], ['KUWAIT', '/kuwait'], ['BAHRAIN', '/bahrain'], ['OMAN', '/oman']] },
+  { heading: 'COMPANY', links: [['ABOUT US', '/about'], ['CONTACT US', '/contact'], ['FACTORY TOUR', '/factory-tour'], ['FAQ', '/faq'], ['RESOURCES', '/resources']] },
+];
+
+export function SiteFooter() { return <footer className="site-footer" data-testid="footer"><div className="site-footer__inner"><section className="site-footer__brand"><Link href="/"><img src="https://files.ihgbrands.com/assets_brightluxx-logo-nav.png" alt="Brightluxx" /></Link><p>Premium LED display solutions for UAE and MENA. Established since 2005.</p><div><a href="https://www.instagram.com/brightluxx/" aria-label="Instagram" data-testid="footer-social-instagram">◎</a><a href="https://www.linkedin.com/company/brightluxx/" aria-label="LinkedIn" data-testid="footer-social-linkedin">in</a></div></section>{sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.links.map(([label, href]) => <Link href={href} key={label}>{label}</Link>)}</section>)}<section><h2>CONTACT</h2><a href="https://maps.google.com/?q=Jebel+Ali+Industrial+Area+1+Dubai" data-testid="footer-map-link">Jebel Ali Industrial Area 1, Dubai, UAE</a><a href="tel:+97142585754" data-testid="footer-phone-link">+971 4 258 5754</a><a href="mailto:sales@brightluxx.com" data-testid="footer-email-link">sales@brightluxx.com</a></section></div><div className="site-footer__bottom">© {new Date().getFullYear()} BRIGHTLUXX. ALL RIGHTS RESERVED.<span>A DIVISION OF IHG INDUSTRY L.L.C</span></div></footer>; }
