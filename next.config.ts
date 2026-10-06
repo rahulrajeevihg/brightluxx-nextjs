@@ -20,6 +20,7 @@ const legacyRedirects = [
 ];
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   turbopack: { root: process.cwd() },
   skipTrailingSlashRedirect: true,
   async redirects() {
