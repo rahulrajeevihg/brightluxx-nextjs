@@ -1,0 +1,41 @@
+yarn run v1.22.22
+$ next build
+▲ Next.js 16.3.2 (Turbopack)
+- Environments: .env
+✓ Running next.config.ts took 17ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 6.6s
+  Running TypeScript ...
+  Finished TypeScript in 2.8s ...
+  Collecting page data using 13 workers ...
+  Generating static pages using 13 workers (0/240) ...
+  Generating static pages using 13 workers (60/240) 
+  Generating static pages using 13 workers (120/240) 
+  Generating static pages using 13 workers (180/240) 
+✓ Generating static pages using 13 workers (240/240) in 3.4s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├   /[...slug]
+│ ├ ● /about
+│ ├ ● /abu-dhabi
+│ ├ ● /applications
+│ └ ● [+231 more paths]
+├ ƒ /compare
+├ ƒ /contact
+├ ƒ /luxury-home-cinema
+├ ƒ /products
+├ ƒ /products/[slug]
+├ ƒ /products/hjdba
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+Done in 15.99s.

@@ -80,3 +80,9 @@ memory/test_credentials.md
 # Mobile development
 android-sdk/node_modules/@next/swc-linux-arm64-gnu/next-swc.linux-arm64-gnu.node
 node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
+
+# Next.js build output (any location, after frontend/ relocation)
+.next/
+frontend/.next/
+frontend/install.log
+frontend/build.log

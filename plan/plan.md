@@ -1,40 +1,49 @@
-# Brightluxx — Fix the Production Deploy (build-time backend fetch)
+# Relocate the Next.js App into `frontend/`
 
-Make the production `next build` succeed by stopping backend-dependent pages from fetching during static prerendering.
-The deploy currently fails because one page calls the backend at build time, when no backend is reachable.
+Move the entire Next.js application out of the repository root and into a `frontend/` folder, so the repo matches the `frontend/ + backend/` shape the Next.js + FastAPI deployment template expects.
+This is a structural relocation to prepare for the template switch — the backend and its running process are left exactly as they are.
 
 ## Who it's for
-The agent fixing the failing Emergent deployment of the already-running Brightluxx app. Preview works; only the production build step fails.
+The person preparing this app to be redeployed on the combined Next.js + FastAPI template, where the frontend is expected to live under `frontend/` alongside the existing `backend/`.
 
-## The problem (confirmed from build logs, 3 identical failures)
-During `next build`, Next.js prerenders 241 pages. The page `/luxury-home-cinema` runs a server-side `fetch()` to the backend while building. Inside Cloud Build the backend is not running, so the fetch is refused (`ECONNREFUSED`) and the whole build aborts at `180/241`. Compile and TypeScript both pass — the failure is only build-time data fetching.
+## Core features and experience
+- The whole Next.js app moves into `frontend/`: the app code, `public/` (including the embedded content bundle and media), `package.json`, `yarn.lock`, `tsconfig.json`, installed dependencies, and build config.
+- The root `.env` file is moved in full into `frontend/` (it no longer exists at the repo root). `API_ORIGIN=http://localhost:8001` is preserved unchanged inside it.
+- The Next.js build setting `output: 'standalone'` is kept.
+- `backend/` and the backend service that runs it are left untouched.
+- After the move, the repo top level contains `frontend/`, `backend/`, and the shared project files (checklists, docs, git) — nothing Next.js-specific remains at the root.
 
-## The fix
-- In `app/luxury-home-cinema/page.tsx`, add `export const dynamic = 'force-dynamic';` so the page renders at request time (backend live) instead of at build time.
-- This mirrors what the other backend-backed routes already do: `/products`, `/products/[slug]`, `/compare`, and `/contact` all already export `dynamic = 'force-dynamic'`.
-- No other route needs changing: the catch-all `[...slug]` pages, `sitemap.ts`, `robots.ts`, and the home page read only the embedded content bundle from disk (no backend call at build), so they stay statically prerendered.
+## User flow
+1. All Next.js files and folders are relocated from the root into `frontend/`.
+2. The root `.env` is moved into `frontend/` with its contents intact.
+3. A fresh dependency install is run inside `frontend/` so the app is runnable from its new location.
+4. The app is confirmed to build from inside `frontend/`, producing the standalone output.
 
-## Verification
-- Run `yarn build` with the backend stopped and confirm it completes without `ECONNREFUSED`.
-- Confirm `/luxury-home-cinema` still renders its home-cinema products at request time once the backend is up.
-- Then redeploy.
+## UI/UX feel
+No visual or behavioral change to the website itself. This is an internal reorganization; pages, content, and styling stay identical.
 
-## Decisions worth noting
-- This is a one-line, single-file change; no Docker/manifest/platform changes.
-- Backend logic is untouched. The page simply moves from static prerender to on-request rendering, which is correct for data that comes from the live backend.
-- Production will talk to Atlas MongoDB via the deployed backend; this fix does not depend on which database is used, only on not calling the backend during the build.
+## Known trade-off (accepted)
+The live preview and the current Next.js-only deploy both expect the app at the repo root and are controlled by the platform. Once the app moves into `frontend/`, the live preview and the existing deploy are expected to stop working until the platform is pointed at the new template/layout. This has been accepted: the move is the preparation step, and the template switch is handled separately.
 
 ## Implementation phases
-### Phase 1 — Deploy fix (do now)
-Apply the `force-dynamic` export to `app/luxury-home-cinema/page.tsx`, verify the build passes with the backend down, redeploy.
 
-### Phase 2 — Safety sweep (optional, later)
-Audit every server component/route for build-time backend calls and standardize on `force-dynamic` (or try/catch fallback) so a down backend can never abort a future build.
+### Phase 1 — Relocate the frontend (built now)
+- Move all Next.js files/folders (app code, `public/`, `package.json`, `yarn.lock`, `tsconfig.json`, dependencies, build config) into `frontend/`.
+- Move the root `.env` into `frontend/` unchanged, keeping `API_ORIGIN=http://localhost:8001`.
+- Keep `output: 'standalone'`.
+- Reinstall dependencies inside `frontend/` and confirm the app builds from there.
+- Leave `backend/` and its service as-is.
 
-### Phase 3 — Production deployment hardening (later)
-Confirm the production API origin/env wiring and health checks after the successful deploy.
+### Phase 2 — Template switch (later, not now)
+Point the deployment at the Next.js + FastAPI template so both `frontend/` and `backend/` are built and served together, and restore a working preview under the new layout.
+
+### Phase 3 — Verify the full stack on the new template (later, not now)
+Confirm the frontend talks to the backend via `API_ORIGIN`, the CDN/media and key pages render, and the deploy succeeds end-to-end.
 
 ## Assumptions
-- Only `/luxury-home-cinema` fetches the backend at build time; all other routes are already safe (verified by reading the route files).
-- Keeping the page dynamic (not statically cached) is acceptable; SEO metadata on the page is static and unaffected.
-- The user redeploys after the fix; no automated test suite is required for this change beyond a local build check and a runtime render check.
+- "Move the Next.js app into `frontend/`" means everything that currently makes up the Next.js app at the root, including its `node_modules`/install (which will be refreshed in place), not just the files explicitly named.
+- The root `.env` is moved whole (no copy left at the root), per the decision given; any infra variables it holds move with it.
+- Shared, non-Next.js items at the root (git, documentation, the CDN migration checklist, the `backend/` folder) stay at the root.
+- It is acceptable that the current preview and the current Next.js-only deploy break after the move; they will be restored via the template switch in a later phase.
+- No website features, content, routes, or styling change in this phase.
+- `output: 'standalone'` and `API_ORIGIN=http://localhost:8001` remain exactly as they are today.
