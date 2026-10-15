@@ -1,0 +1,11 @@
+{
+  "name": "brightluxx-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Root launcher: delegates to the Next.js app in frontend/ so the platform's `yarn dev` (cwd /app) runs the relocated frontend.",
+  "scripts": {
+    "dev": "cd frontend && yarn dev",
+    "build": "cd frontend && yarn build",
+    "start": "cd frontend && yarn start"
+  }
+}
