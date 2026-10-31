@@ -227,7 +227,7 @@ class TestAdminCMSPagesAccess:
         session = requests.Session()
         login_response = session.post(f"{BASE_URL}/api/auth/login", json={
             "email": "admin@brightluxx.com",
-            "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2025")
+            "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2026")
         })
         if login_response.status_code == 200:
             return session

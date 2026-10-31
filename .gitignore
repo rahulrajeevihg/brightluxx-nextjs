@@ -86,3 +86,9 @@ node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
 frontend/.next/
 frontend/install.log
 frontend/build.log
+.env
+.env.*
+*.env
+credentials.json
+*.key
+.credentials

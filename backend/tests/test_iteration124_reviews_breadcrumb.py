@@ -148,7 +148,7 @@ def admin_client():
     s = requests.Session()
     r = s.post(
         f"{BASE_URL}/api/admin/login",
-        json={"email": "admin@brightluxx.com", "password": "brightluxx2025"},
+        json={"email": "admin@brightluxx.com", "password": "brightluxx2026"},
         timeout=30,
     )
     if r.status_code != 200:
@@ -163,7 +163,7 @@ class TestAdminLoginSecurity:
     def test_login_sets_httponly_cookie(self):
         r = requests.post(
             f"{BASE_URL}/api/admin/login",
-            json={"email": "admin@brightluxx.com", "password": "brightluxx2025"},
+            json={"email": "admin@brightluxx.com", "password": "brightluxx2026"},
             timeout=30,
         )
         assert r.status_code == 200

@@ -110,7 +110,7 @@ class TestAdminAuth:
         """Admin login works"""
         payload = {
             "email": "admin@brightluxx.com",
-            "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2025")
+            "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2026")
         }
         response = requests.post(
             f"{BASE_URL}/api/admin/login",

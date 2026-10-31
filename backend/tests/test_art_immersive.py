@@ -182,7 +182,7 @@ class TestAdminLogin:
         """Admin login with correct credentials should succeed"""
         response = requests.post(f"{BASE_URL}/api/admin/login", json={
             "email": "admin@brightluxx.com",
-            "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2025")
+            "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2026")
         })
         assert response.status_code == 200
         data = response.json()

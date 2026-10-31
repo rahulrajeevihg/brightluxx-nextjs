@@ -36,7 +36,7 @@ def client():
 @pytest.fixture(scope="module")
 def admin_token(client):
     r = client.post(f"{BASE_URL}/api/admin/login",
-                    json={"email": "admin@brightluxx.com", "password": "brightluxx2025"},
+                    json={"email": "admin@brightluxx.com", "password": "brightluxx2026"},
                     timeout=TIMEOUT)
     if r.status_code != 200:
         pytest.fail(f"admin login failed {r.status_code}: {r.text[:300]}")

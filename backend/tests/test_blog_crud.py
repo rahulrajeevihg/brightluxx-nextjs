@@ -106,7 +106,7 @@ class TestBlogAdminEndpoints:
         """Get admin auth token"""
         response = requests.post(f"{BASE_URL}/api/admin/login", json={
             "email": "admin@brightluxx.com",
-            "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2025")
+            "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2026")
         })
         if response.status_code != 200:
             pytest.skip("Admin login failed")

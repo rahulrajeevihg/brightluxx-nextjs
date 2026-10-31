@@ -11,7 +11,7 @@ from dotenv import dotenv_values
 
 _env = dotenv_values("/app/frontend/.env")
 BASE_URL = (os.environ.get("REACT_APP_BACKEND_URL") or _env.get("REACT_APP_BACKEND_URL")).rstrip("/")
-ADMIN = {"email": "admin@brightluxx.com", "password": "brightluxx2025"}
+ADMIN = {"email": "admin@brightluxx.com", "password": "brightluxx2026"}
 PRODUCT = "gamewall-sim-180"
 
 

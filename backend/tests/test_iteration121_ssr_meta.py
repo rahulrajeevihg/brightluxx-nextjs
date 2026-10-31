@@ -243,7 +243,7 @@ class TestRegressions:
 
     def test_admin_login(self, client):
         r = client.post(f"{BASE_URL}/api/admin/login",
-                        json={"email": "admin@brightluxx.com", "password": "brightluxx2025"},
+                        json={"email": "admin@brightluxx.com", "password": "brightluxx2026"},
                         timeout=30)
         if r.status_code == 429:
             pytest.skip("rate limited by brute-force limiter")
